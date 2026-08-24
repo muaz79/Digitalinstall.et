@@ -120,7 +120,7 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
                   </div>
                   <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
                     <div>{company.address}</div>
-                    <div>Tel: {company.primaryPhone || '+251902329715'} | Email: {company.email || 'info@digitalinstall.et}</div>
+                    <div>Tel: {company.primaryPhone || '+251902329715'} | Email: {company.email || 'info@digitalinstall.et'}</div>
                     <div>TIN: {company.tinNumber || '0098472911'} | License: {company.licenseNumber || 'ENG-AA-2026-8849'}</div>
                   </div>
                 </div>
