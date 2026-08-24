@@ -1,0 +1,462 @@
+// Prisma Schema for DIGITAL INSTALL - PostgreSQL Database
+// Engineering & Technology Solutions (DESIGN • SUPPLY • INSTALL • SUPPORT)
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  SALES
+  SHOP_MANAGER
+  TECHNICIAN
+  CUSTOMER
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+  INDUSTRIAL
+  INSTITUTIONAL
+}
+
+enum QuoteStatus {
+  NEW
+  REVIEWING
+  SITE_VISIT
+  QUOTED
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum ProjectStatus {
+  PLANNING
+  MATERIALS
+  INSTALLATION
+  TESTING
+  COMMISSIONING
+  COMPLETED
+  MAINTENANCE
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum WarrantyStatus {
+  ACTIVE
+  EXPIRING
+  EXPIRED
+  CLAIMED
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  WAITING_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  passwordHash  String
+  name          String
+  role          Role            @default(CUSTOMER)
+  phone         String?
+  companyName   String?
+  avatarUrl     String?
+  isActive      Boolean         @default(true)
+  customer      CustomerProfile?
+  staff         StaffProfile?
+  quotes        Quote[]
+  projects      Project[]
+  orders        Order[]
+  warranties    Warranty[]
+  tickets       SupportTicket[]
+  messages      SupportMessage[]
+  auditLogs     AuditLog[]
+  notifications Notification[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+model CustomerProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address     String?
+  city        String?  @default("Addis Ababa")
+  subCity     String?
+  tinNumber   String?
+  totalSpent  Float    @default(0)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StaffProfile {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTitle            String
+  department          String
+  specialization      String?
+  activeProjectsCount Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Service {
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  title           String
+  category        String
+  shortDescription String
+  fullDescription String   @db.Text
+  icon            String
+  image           String
+  features        String[]
+  benefits        String[]
+  process         Json
+  subServices     String[]
+  faqs            Json
+  estimatedStartingPrice Float?
+  popular         Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model Product {
+  id                 String                 @id @default(uuid())
+  sku                String                 @unique
+  name               String
+  slug               String                 @unique
+  category           String
+  categoryName       String
+  brand              String
+  description        String                 @db.Text
+  images             String[]
+  specifications     Json
+  price              Float
+  discountPrice      Float?
+  stock              Int                    @default(0)
+  lowStockThreshold  Int                    @default(5)
+  warrantyMonths     Int                    @default(12)
+  featured           Boolean                @default(false)
+  status             String                 @default("ACTIVE")
+  orderItems         OrderItem[]
+  warranties         Warranty[]
+  inventoryMovements InventoryTransaction[]
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+
+  @@index([sku])
+  @@index([category])
+}
+
+model InventoryTransaction {
+  id            String   @id @default(uuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  type          String
+  quantity      Int
+  previousStock Int
+  newStock      Int
+  reason        String
+  reference     String?
+  performedBy   String
+  createdAt     DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Quote {
+  id                 String       @id @default(uuid())
+  quoteNumber        String       @unique
+  customerId         String
+  customer           User         @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customerName       String
+  customerEmail      String
+  customerPhone      String
+  customerLocation   String
+  propertyType       PropertyType @default(RESIDENTIAL)
+  requiredServices   String[]
+  projectDescription String       @db.Text
+  estimatedBudget    String?
+  preferredDate      String?
+  attachments        String[]
+  customerNotes      String?      @db.Text
+  status             QuoteStatus  @default(NEW)
+  assignedStaffId    String?
+  assignedStaffName  String?
+  items              QuoteItem[]
+  subtotal           Float        @default(0)
+  taxRate            Float        @default(0.15)
+  taxAmount          Float        @default(0)
+  discount           Float        @default(0)
+  totalAmount        Float        @default(0)
+  adminNotes         String?      @db.Text
+  validUntil         DateTime?
+  approvedAt         DateTime?
+  rejectedReason     String?
+  convertedProjectId String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  @@index([quoteNumber])
+  @@index([customerId])
+  @@index([status])
+}
+
+model QuoteItem {
+  id          String   @id @default(uuid())
+  quoteId     String
+  quote       Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  description String
+  serviceId   String?
+  type        String
+  quantity    Float
+  unit        String
+  unitPrice   Float
+  totalPrice  Float
+
+  @@index([quoteId])
+}
+
+model Project {
+  id                     String        @id @default(uuid())
+  projectNumber          String        @unique
+  customerId             String
+  customer               User          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customerName           String
+  customerEmail          String
+  customerPhone          String?
+  quoteId                String?
+  title                  String
+  type                   PropertyType  @default(COMMERCIAL)
+  location               String
+  description            String        @db.Text
+  scopeOfWork            String[]
+  budget                 Float
+  startDate              DateTime
+  targetCompletionDate   DateTime
+  actualCompletionDate   DateTime?
+  assignedTechnicianIds  String[]
+  assignedTechnicianNames String[]
+  status                 ProjectStatus @default(PLANNING)
+  progressPercentage     Int           @default(0)
+  milestones             Json
+  photos                 Json
+  documents              Json
+  isFeatured             Boolean       @default(false)
+  featuredImage          String?
+  tags                   String[]
+  warranties             Warranty[]
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  @@index([projectNumber])
+  @@index([customerId])
+  @@index([status])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique
+  customerId      String
+  customer        User        @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  shippingAddress String
+  city            String      @default("Addis Ababa")
+  subCity         String?
+  orderType       String      @default("PURCHASE")
+  items           OrderItem[]
+  subtotal        Float
+  taxAmount       Float
+  deliveryFee     Float       @default(0)
+  totalAmount     Float
+  paymentMethod   String
+  paymentStatus   String      @default("PENDING")
+  status          OrderStatus @default(PENDING)
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([orderNumber])
+  @@index([customerId])
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productName String
+  sku         String
+  price       Float
+  quantity    Int
+  totalPrice  Float
+
+  @@index([orderId])
+}
+
+model Warranty {
+  id               String          @id @default(uuid())
+  warrantyNumber   String          @unique
+  customerId       String
+  customer         User            @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customerName     String
+  customerEmail    String
+  customerPhone    String?
+  projectId        String?
+  project          Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectName      String?
+  productId        String?
+  product          Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productName      String?
+  serialNumber     String
+  installationDate DateTime
+  startDate        DateTime
+  endDate          DateTime
+  warrantyType     String
+  coverageDetails  String          @db.Text
+  status           WarrantyStatus  @default(ACTIVE)
+  claims           WarrantyClaim[]
+  createdAt        DateTime        @default(now())
+
+  @@index([warrantyNumber])
+  @@index([serialNumber])
+  @@index([customerId])
+}
+
+model WarrantyClaim {
+  id               String    @id @default(uuid())
+  claimNumber      String    @unique
+  warrantyId       String
+  warranty         Warranty  @relation(fields: [warrantyId], references: [id], onDelete: Cascade)
+  warrantyNumber   String
+  customerId       String
+  customerName     String
+  issueDescription String    @db.Text
+  attachments      String[]
+  status           String    @default("SUBMITTED")
+  adminNotes       String?   @db.Text
+  resolvedAt       DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([claimNumber])
+  @@index([warrantyId])
+}
+
+model SupportTicket {
+  id                String           @id @default(uuid())
+  ticketNumber      String           @unique
+  customerId        String
+  customer          User             @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customerName      String
+  customerEmail     String
+  customerPhone     String?
+  category          String
+  priority          TicketPriority   @default(NORMAL)
+  status            TicketStatus     @default(OPEN)
+  subject           String
+  initialMessage    String           @db.Text
+  assignedStaffId   String?
+  assignedStaffName String?
+  messages          SupportMessage[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  resolvedAt        DateTime?
+
+  @@index([ticketNumber])
+  @@index([customerId])
+  @@index([status])
+}
+
+model SupportMessage {
+  id          String        @id @default(uuid())
+  ticketId    String
+  ticket      SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderId    String
+  sender      User          @relation(fields: [senderId], references: [id], onDelete: Restrict)
+  senderName  String
+  senderRole  Role
+  message     String        @db.Text
+  attachments String[]
+  createdAt   DateTime      @default(now())
+
+  @@index([ticketId])
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  email     String
+  service   String
+  location  String
+  message   String   @db.Text
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userName   String
+  userRole   Role
+  action     String
+  entityType String
+  entityId   String?
+  details    String   @db.Text
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String   @db.Text
+  link      String?
+  type      String   @default("INFO")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

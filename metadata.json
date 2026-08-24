@@ -1,0 +1,6 @@
+{
+  "name": "DIGITAL INSTALL - Engineering & Technology Solutions",
+  "description": "Full-stack engineering & technology web platform for DIGITAL INSTALL featuring quote builder, customer portal, e-commerce shop, project milestones, warranty tracking, support tickets, and role-based admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
