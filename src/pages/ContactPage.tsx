@@ -101,8 +101,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ navigate, onOpenQuoteM
                   </div>
                   <div>
                     <strong className="text-slate-900 block">Phone & Emergency Hotline:</strong>
-                    <a href="tel:+251911000111" className="text-[#1F6FEB] font-bold block">+251 911 000 111</a>
-                    <a href="tel:+251116123456" className="text-slate-700 block">+251 116 123 456 (Landline)</a>
+                    <a href="tel:+251902329715" className="text-[#1F6FEB] font-bold block">+251 902329715</a>
+                    <a href="tel:+25941365596" className="text-slate-700 block">+251 941365596 (Landline)</a>
                   </div>
                 </div>
 
