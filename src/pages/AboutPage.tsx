@@ -8,10 +8,10 @@ interface AboutPageProps {
 
 export const AboutPage: React.FC<AboutPageProps> = ({ navigate, onOpenQuoteModal }) => {
   const leadership = [
-    { name: 'Yohannes Getachew', role: 'Managing Director & Lead Systems Engineer', spec: 'MSc Electrical Engineering, 14+ Years in Ethiopian Infrastructure' },
-    { name: 'Dawit Bekele', role: 'Senior Field Engineering Supervisor', spec: 'BSc Telecom & CCTV Networks, Certified Fluke & Fiber Specialist' },
-    { name: 'Marta Worku', role: 'Head of Engineering Estimations & Sales', spec: 'Civil & Systems Estimator, 9+ Years Turnkey Project Management' },
-    { name: 'Selamawit Tadesse', role: 'Supply Chain & Inventory Director', spec: 'International Hardware Procurement & Authorized Distributorship' }
+    { name: 'Eng NimonaAlemu', role: 'Managing Director & Lead Systems Engineer', spec: 'MSc Electrical Engineering, 14+ Years in Ethiopian Infrastructure' },
+    { name: 'Anas Taye', role: 'Senior Field Engineering Supervisor', spec: 'BSc Telecom & CCTV Networks, Certified Fluke & Fiber Specialist' },
+    { name: 'Eng Mand Alemu', role: 'Head of Engineering Estimations & Sales', spec: 'Civil & Systems Estimator, 9+ Years Turnkey Project Management' },
+    { name: 'Hundaol Alemu', role: 'Supply Chain & Inventory Director', spec: 'International Hardware Procurement & Authorized Distributorship' }
   ];
 
   return (
