@@ -55,11 +55,11 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
   const company: CompanySettings = docData?.company || {
     companyName: 'DIGITAL INSTALL',
     tagline: 'Engineering & Technology Solutions',
-    phone: '+251 911 000 111',
+    phone: '+251 902329715',
     email: 'info@digitalinstall-et.com',
     tinNumber: '0098472911',
     vatNumber: 'ET-VAT-2026-991',
-    address: 'Africa Avenue, Bole Sub-City, Addis Ababa, Ethiopia'
+    address: 'Africa Avenue, Chiro Sub-City, OROMIA, Ethiopia'
   };
 
   return (
@@ -120,7 +120,7 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
                   </div>
                   <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
                     <div>{company.address}</div>
-                    <div>Tel: {company.primaryPhone || '+251 911 000 111'} | Email: {company.email || 'info@digitalinstall.et'}</div>
+                    <div>Tel: {company.primaryPhone || '+251902329715'} | Email: {company.email || 'info@digitalinstall.et}</div>
                     <div>TIN: {company.tinNumber || '0098472911'} | License: {company.licenseNumber || 'ENG-AA-2026-8849'}</div>
                   </div>
                 </div>
