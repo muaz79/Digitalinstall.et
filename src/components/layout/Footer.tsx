@@ -128,12 +128,12 @@ export const Footer: React.FC<FooterProps> = ({ navigate, onOpenQuoteModal }) =>
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#1F6FEB] flex-shrink-0 mt-0.5" />
-                <span>Africa Avenue (Airport Rd), Bole Sub-City, Addis Ababa, Ethiopia</span>
+                <span>Africa Avenue (Airport Rd), Chiro Sub-City, Addis Ababa, Ethiopia</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#1F6FEB] flex-shrink-0" />
-                <a href="tel:+251911000111" className="hover:text-white font-medium text-slate-200">
-                  +251 911 000 111
+                <a href="tel:+251902329715" className="hover:text-white font-medium text-slate-200">
+                  +251 902 329 715
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
