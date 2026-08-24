@@ -12,7 +12,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'admin' as const,
       label: 'Super Admin',
-      name: 'Yohannes Getachew',
+      name: 'Eng NimonaAlemu',
       desc: 'Full platform access, audit logs, settings & financials',
       icon: Shield,
       color: 'text-purple-600 bg-purple-50 border-purple-200'
@@ -20,7 +20,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'sales' as const,
       label: 'Sales & Estimator',
-      name: 'Marta Worku',
+      name: 'Hayat Muhammed',
       desc: 'Quotes pipeline, pricing breakdown, order approvals',
       icon: UserCheck,
       color: 'text-blue-600 bg-blue-50 border-blue-200'
@@ -28,7 +28,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'tech' as const,
       label: 'Senior Field Tech',
-      name: 'Dawit Bekele',
+      name: 'Eng Mande Alemu',
       desc: 'Assigned projects, milestone staging, support tickets',
       icon: Wrench,
       color: 'text-amber-600 bg-amber-50 border-amber-200'
@@ -36,7 +36,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'shop' as const,
       label: 'Shop & Inventory',
-      name: 'Selamawit Tadesse',
+      name: 'Hunde Alemu',
       desc: 'Product catalog, stock adjustments & transactions',
       icon: ShoppingBag,
       color: 'text-emerald-600 bg-emerald-50 border-emerald-200'
@@ -44,7 +44,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'customer1' as const,
       label: 'Customer (Horizon RE)',
-      name: 'Abebe Kebede',
+      name: 'Bona Abrahim',
       desc: 'Active projects, approved quotes, warranties & tickets',
       icon: User,
       color: 'text-indigo-600 bg-indigo-50 border-indigo-200'
@@ -52,7 +52,7 @@ export const QuickRoleSwitcher: React.FC = () => {
     {
       key: 'customer2' as const,
       label: 'Customer (Grand Mall)',
-      name: 'Tigist Haile',
+      name: 'Ezedin Aliyi',
       desc: 'Commercial CCTV project, orders, pending quotes',
       icon: User,
       color: 'text-cyan-600 bg-cyan-50 border-cyan-200'
