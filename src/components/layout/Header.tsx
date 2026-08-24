@@ -53,9 +53,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenQuoteModal, currentPath, n
       <div className="bg-[#07111F] text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-[11px]">
-            <a href="tel:+251911000111" className="flex items-center gap-1.5 hover:text-white transition-colors">
+            <a href="tel:+251902329715" className="flex items-center gap-1.5 hover:text-white transition-colors">
               <Phone className="w-3.5 h-3.5 text-[#1F6FEB]" />
-              <span className="font-semibold text-white">+251 911 000 111</span>
+              <span className="font-semibold text-white">+251 941365596</span>
             </a>
             <span className="hidden sm:inline-block text-slate-600">•</span>
             <div className="flex items-center gap-1.5">
